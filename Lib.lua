@@ -17,6 +17,13 @@ function UILibrary:CreateWindow(title)
     Main.Active = true
     Main.Parent = ScreenGui
     
+    local DragBar = Instance.new("Frame")
+    DragBar.Size = UDim2.new(1, 0, 0, 30) -- only top 30 pixels
+    DragBar.BackgroundTransparency = 1 -- invisible
+    DragBar.Parent = Main
+    DragBar.Active = true
+    DragBar.Draggable = true
+    
     local dragging = false
     local dragInput, dragStart, startPos
 
