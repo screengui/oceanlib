@@ -17,6 +17,26 @@ function UILibrary:CreateWindow(title)
     local mainCorner = Instance.new("UICorner")
     mainCorner.CornerRadius = UDim.new(0, 10)
     mainCorner.Parent = Main
+
+    local TitleBar = Instance.new("Frame")
+    TitleBar.Size = UDim2.new(1, 0, 0, 35)
+    TitleBar.BackgroundColor3 = Color3.fromRGB(25, 50, 180)
+    TitleBar.Parent = Main
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Size = UDim2.new(1, -10, 1, 0)
+    TitleLabel.Position = UDim2.new(0, 5, 0, 0)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = title
+    TitleLabel.TextColor3 = Color3.new(1,1,1)
+    TitleLabel.TextSize = 20
+    TitleLabel.Font = Enum.Font.SourceSansBold
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLabel.Parent = TitleBar
+
+    local titleCorner = Instance.new("UICorner")
+    titleCorner.CornerRadius = UDim.new(0, 10)
+    titleCorner.Parent = TitleBar
     
     local function makeDraggable(dragger, target)
         local dragging, dragInput, dragStart, startPos
@@ -53,7 +73,8 @@ function UILibrary:CreateWindow(title)
     end  
     
     local TabListWrapper = Instance.new("Frame")
-    TabListWrapper.Size = UDim2.new(0, 120, 1, 0)
+    TabListWrapper.Size = UDim2.new(0, 120, 1, -35)
+    TabListWrapper.Position = UDim2.new(0, 0, 0, 35)
     TabListWrapper.BackgroundTransparency = 1
     TabListWrapper.BorderSizePixel = 0
     TabListWrapper.Parent = Main
@@ -70,8 +91,8 @@ function UILibrary:CreateWindow(title)
     tabListCorner.Parent = TabList
     
     local TabContentWrapper = Instance.new("Frame")
-    TabContentWrapper.Size = UDim2.new(1, -120, 1, 0)
-    TabContentWrapper.Position = UDim2.new(0, 120, 0, 0)
+    TabContentWrapper.Size = UDim2.new(1, -120, 1, -35)
+    TabContentWrapper.Position = UDim2.new(0, 120, 0, 35)
     TabContentWrapper.BackgroundTransparency = 1
     TabContentWrapper.BorderSizePixel = 0
     TabContentWrapper.Parent = Main
@@ -90,8 +111,9 @@ function UILibrary:CreateWindow(title)
     local tabContentWrapperCorner = Instance.new("UICorner")
     tabContentWrapperCorner.CornerRadius = UDim.new(0, 8)
     tabContentWrapperCorner.Parent = TabContentWrapper
-    
+
     makeDraggable(Main, Main)
+    makeDraggable(TitleBar, Main)
     makeDraggable(TabList, Main)
     makeDraggable(TabListWrapper, Main)
     makeDraggable(TabContent, Main)
