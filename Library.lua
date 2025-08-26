@@ -47,8 +47,7 @@ function UILibrary:CreateWindow(title)
     local titleCorner = Instance.new("UICorner")
     titleCorner.CornerRadius = UDim.new(0, 10)
     titleCorner.Parent = TitleBar
-
-    -- Button Container
+    
     local BtnFrame = Instance.new("Frame")
     BtnFrame.Size = UDim2.new(0, 70, 0, 30)
     BtnFrame.Position = UDim2.new(1, -75, 0.5, -15)
@@ -59,24 +58,24 @@ function UILibrary:CreateWindow(title)
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = BtnFrame
-
-    -- Minimize Button
+    
     local MinBtn = Instance.new("TextButton")
     MinBtn.Size = UDim2.new(0.5, -2, 1, 0)
     MinBtn.Position = UDim2.new(0, 0, 0, 0)
     MinBtn.Text = "-"
     MinBtn.Font = Enum.Font.Nunito
-    MinBtn.TextColor3 = Color3.new(0,0,0)
+    MinBtn.TextScaled = true
+    MinBtn.TextColor3 = Color3.new(255,255,255)
     MinBtn.BackgroundTransparency = 1
     MinBtn.Parent = BtnFrame
     MinBtn.ZIndex = 5
-
-    -- Close Button
+    
     local CloseBtn = Instance.new("TextButton")
     CloseBtn.Size = UDim2.new(0.5, -2, 1, 0)
     CloseBtn.Position = UDim2.new(0.5, 2, 0, 0)
     CloseBtn.Text = "X"
     CloseBtn.Font = Enum.Font.Nunito
+    CloseBtn.TextScaled = true
     CloseBtn.TextColor3 = Color3.new(1,1,1)
     CloseBtn.BackgroundTransparency = 1
     CloseBtn.Parent = BtnFrame
@@ -88,6 +87,7 @@ function UILibrary:CreateWindow(title)
     ReopenBtn.Text = "Open GUI"
     ReopenBtn.Font = Enum.Font.Nunito
     ReopenBtn.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
+    ReopenBtn.TextScaled = true
     ReopenBtn.TextColor3 = Color3.new(1,1,1)
     ReopenBtn.Visible = false
     ReopenBtn.Parent = ScreenGui
@@ -112,6 +112,7 @@ function UILibrary:CreateWindow(title)
     ConfirmLabel.Position = UDim2.new(0, 10, 0, 10)
     ConfirmLabel.Text = "Do you really want to close?"
     ConfirmLabel.Font = Enum.Font.Nunito
+    ConfirmLabel.TextScaled = true
     ConfirmLabel.TextColor3 = Color3.new(1,1,1)
     ConfirmLabel.TextWrapped = true
     ConfirmLabel.BackgroundTransparency = 1
@@ -124,6 +125,7 @@ function UILibrary:CreateWindow(title)
     YesBtn.Text = "Yes"
     YesBtn.Font = Enum.Font.Nunito
     YesBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    YesBtn.TextScaled = true
     YesBtn.TextColor3 = Color3.new(1,1,1)
     YesBtn.Parent = ConfirmFrame
     YesBtn.ZIndex = 4
@@ -134,6 +136,7 @@ function UILibrary:CreateWindow(title)
     NoBtn.Text = "No"
     NoBtn.Font = Enum.Font.Nunito
     NoBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+    NoBtn.TextScaled = true
     NoBtn.TextColor3 = Color3.new(1,1,1)
     NoBtn.Parent = ConfirmFrame
     NoBtn.ZIndex = 4
@@ -252,7 +255,6 @@ function UILibrary:CreateWindow(title)
     return Window
 end
 
--- Create Tab
 function UILibrary:CreateTab(name)
     local TabButton = Instance.new("TextButton")
     TabButton.Size = UDim2.new(1, -10, 0, 30)
@@ -260,6 +262,7 @@ function UILibrary:CreateTab(name)
     TabButton.Text = name
     TabButton.Font = Enum.Font.Nunito
     TabButton.BackgroundColor3 = Color3.fromRGB(70, 100, 220)
+    TabButton.TextScaled = true
     TabButton.TextColor3 = Color3.new(1,1,1)
     TabButton.Parent = self.TabList
 
@@ -276,16 +279,14 @@ function UILibrary:CreateTab(name)
     }
 
     table.insert(self.Tabs, Tab)
-
-    -- Switching tabs
+    
     TabButton.MouseButton1Click:Connect(function()
         for _,t in pairs(self.Tabs) do
             t.Content.Visible = false
         end
         ContentFrame.Visible = true
     end)
-
-    -- Metatable for functions
+    
     local TabAPI = {}
     function TabAPI:AddButton(text, callback)
         local Btn = Instance.new("TextButton")
@@ -294,6 +295,7 @@ function UILibrary:CreateTab(name)
         Btn.Text = text
         Btn.Font = Enum.Font.Nunito
         Btn.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        Btn.TextScaled = true
         Btn.TextColor3 = Color3.new(1,1,1)
         Btn.Parent = ContentFrame
         Btn.MouseButton1Click:Connect(callback)
@@ -307,6 +309,7 @@ function UILibrary:CreateTab(name)
         Btn.Text = text .. ": " .. tostring(default)
         Btn.Font = Enum.Font.Nunito
         Btn.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        Btn.TextScaled = true
         Btn.TextColor3 = Color3.new(1,1,1)
         Btn.Parent = ContentFrame
         local state = default
@@ -327,6 +330,7 @@ function UILibrary:CreateTab(name)
         Box.Font = Enum.Font.Nunito
         Box.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
         Box.TextColor3 = Color3.new(1,1,1)
+        Box.TextScaled = true
         Box.Parent = ContentFrame
         Box.FocusLost:Connect(function(enter)
             if enter then
