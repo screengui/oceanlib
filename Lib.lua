@@ -16,7 +16,37 @@ function UILibrary:CreateWindow(title)
     Main.BackgroundColor3 = Color3.fromRGB(30, 60, 200)
     Main.Active = true
     Main.Parent = ScreenGui
-    Main.Draggable = true
+    
+    local dragging = false
+    local dragInput, dragStart, startPos
+
+    Main.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = Main.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    Main.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+                Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+                startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            end
+    end)
 
     -- Tab list (scrollable)
     local TabList = Instance.new("ScrollingFrame")
@@ -25,7 +55,6 @@ function UILibrary:CreateWindow(title)
     TabList.ScrollBarThickness = 5
     TabList.CanvasSize = UDim2.new(0,0,0,0)
     TabList.Parent = Main
-    TabList.Draggable = true
 
     -- Tab contents (scrollable)
     local TabContent = Instance.new("ScrollingFrame")
@@ -35,7 +64,6 @@ function UILibrary:CreateWindow(title)
     TabContent.ScrollBarThickness = 5
     TabContent.CanvasSize = UDim2.new(0,0,0,0)
     TabContent.Parent = Main
-    TabContent.Draggable = true
 
     local Window = setmetatable({
         Main = Main,
