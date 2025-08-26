@@ -1,11 +1,8 @@
--- ModuleScript: UILibrary
 local UIS = game:GetService("UserInputService")
 
 local UILibrary = {}
 UILibrary.__index = UILibrary
 
-
--- Create window
 function UILibrary:CreateWindow(title)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -17,7 +14,10 @@ function UILibrary:CreateWindow(title)
     Main.Active = true
     Main.Parent = ScreenGui
 
-    -- Drag helper
+    local mainCorner = Instance.new("UICorner")
+    mainCorner.CornerRadius = UDim.new(0, 10)
+    mainCorner.Parent = Main
+    
     local function makeDraggable(dragger, target)
         local dragging, dragInput, dragStart, startPos
 
@@ -51,8 +51,7 @@ function UILibrary:CreateWindow(title)
             end
         end)
     end  
-
-    -- Wrapper for TabList
+    
     local TabListWrapper = Instance.new("Frame")
     TabListWrapper.Size = UDim2.new(0, 120, 1, 0)
     TabListWrapper.BackgroundTransparency = 1
@@ -66,7 +65,10 @@ function UILibrary:CreateWindow(title)
     TabList.CanvasSize = UDim2.new(0,0,0,0)
     TabList.Parent = TabListWrapper
 
-    -- Wrapper for TabContent
+    local tabListCorner = Instance.new("UICorner")
+    tabListCorner.CornerRadius = UDim.new(0, 8)
+    tabListCorner.Parent = TabList
+    
     local TabContentWrapper = Instance.new("Frame")
     TabContentWrapper.Size = UDim2.new(1, -120, 1, 0)
     TabContentWrapper.Position = UDim2.new(0, 120, 0, 0)
@@ -81,7 +83,10 @@ function UILibrary:CreateWindow(title)
     TabContent.CanvasSize = UDim2.new(0,0,0,0)
     TabContent.Parent = TabContentWrapper
 
-    -- Apply dragging to wrappers instead of scrolling frames
+    local tabContentCorner = Instance.new("UICorner")
+    tabContentCorner.CornerRadius = UDim.new(0, 8)
+    tabContentCorner.Parent = TabContent
+    
     makeDraggable(Main, Main)
     makeDraggable(TabListWrapper, Main)
     makeDraggable(TabContentWrapper, Main)
