@@ -10,19 +10,13 @@ function UILibrary:CreateWindow(title)
     local Main = Instance.new("Frame")
     Main.Size = UDim2.new(0, 500, 0, 300)
     Main.Position = UDim2.new(0.3, 0, 0.3, 0)
-    Main.BackgroundColor3 = Color3.fromRGB(30, 60, 200)
+    Main.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
     Main.Active = true
     Main.Parent = ScreenGui
 
     local mainCorner = Instance.new("UICorner")
     mainCorner.CornerRadius = UDim.new(0, 10)
     mainCorner.Parent = Main
-
-    local DragFrame = Instance.new("Frame")
-    DragFrame.Size = UDim2.new(1, 0, 1, 0)
-    DragFrame.BackgroundTransparency = 1
-    DragFrame.Active = true
-    DragFrame.Parent = Main
     
     local function makeDraggable(dragger, target)
         local dragging, dragInput, dragStart, startPos
@@ -92,8 +86,16 @@ function UILibrary:CreateWindow(title)
     local tabContentCorner = Instance.new("UICorner")
     tabContentCorner.CornerRadius = UDim.new(0, 8)
     tabContentCorner.Parent = TabContent
+
+    local tabContentWrapperCorner = Instance.new("UICorner")
+    tabContentWrapperCorner.CornerRadius = UDim.new(0, 8)
+    tabContentWrapperCorner.Parent = TabContentWrapper
     
-    makeDraggable(DragFrame, Main)
+    makeDraggable(Main, Main)
+    makeDraggable(TabList, Main)
+    makeDraggable(TabListWrapper, Main)
+    makeDraggable(TabContent, Main)
+    makeDraggable(TabContentWrapper, Main)
 
     local Window = setmetatable({
         Main = Main,
