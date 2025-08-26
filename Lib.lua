@@ -67,7 +67,7 @@ function UILibrary:CreateWindow(title)
 
     local tabListCorner = Instance.new("UICorner")
     tabListCorner.CornerRadius = UDim.new(0, 8)
-    tabListCorner.Parent = TabList
+    tabListCorner.Parent = TabListWrapper
     
     local TabContentWrapper = Instance.new("Frame")
     TabContentWrapper.Size = UDim2.new(1, -120, 1, 0)
@@ -85,7 +85,7 @@ function UILibrary:CreateWindow(title)
 
     local tabContentCorner = Instance.new("UICorner")
     tabContentCorner.CornerRadius = UDim.new(0, 8)
-    tabContentCorner.Parent = TabContent
+    tabContentCorner.Parent = TabContentWrapper
     
     makeDraggable(Main, Main)
     makeDraggable(TabListWrapper, Main)
