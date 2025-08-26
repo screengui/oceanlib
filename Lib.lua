@@ -4,35 +4,6 @@ local UIS = game:GetService("UserInputService")
 local UILibrary = {}
 UILibrary.__index = UILibrary
 
--- Make any instance draggable
-local function makeDraggable(gui)
-    local dragging, dragInput, startPos, startInput
-    gui.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            startPos = gui.Position
-            startInput = input
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
-
-    gui.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
-        end
-    end)
-
-    UIS.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            local delta = input.Position - startInput.Position
-            gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        end
-    end)
-end
 
 -- Create window
 function UILibrary:CreateWindow(title)
@@ -45,8 +16,7 @@ function UILibrary:CreateWindow(title)
     Main.BackgroundColor3 = Color3.fromRGB(30, 60, 200)
     Main.Active = true
     Main.Parent = ScreenGui
-
-    makeDraggable(Main)
+    Main.Draggable = true
 
     -- Tab list (scrollable)
     local TabList = Instance.new("ScrollingFrame")
