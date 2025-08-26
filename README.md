@@ -7,9 +7,18 @@ Hello! Welcome to Ocean Library
 
 With that being said, let's get started on how to use the library.
 
-### 1. Booting up the Library
+### Booting up the Library
 - This is necessary for the UI Library to work. It should be placed before anything else.
 
 ```lua
 local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/screengui/oceanlib/refs/heads/main/Library.lua",true))()
+local Window = UILibrary:CreateWindow("My Hub Name")
 ```
+
+### Elements
+- These are the core components of the library
+
+- ### Tabs
+  ```lua
+  local Tab = Window:CreateTab("My Tab Name")
+  ```
