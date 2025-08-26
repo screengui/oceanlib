@@ -16,65 +16,76 @@ function UILibrary:CreateWindow(title)
     Main.BackgroundColor3 = Color3.fromRGB(30, 60, 200)
     Main.Active = true
     Main.Parent = ScreenGui
-    
-    
 
-    -- Tab list (scrollable)
-    local TabList = Instance.new("ScrollingFrame")
-    TabList.Size = UDim2.new(0, 120, 1, 0)
-    TabList.BackgroundColor3 = Color3.fromRGB(20, 40, 120)
-
+    -- Drag helper
     local function makeDraggable(dragger, target)
-    local dragging, dragInput, dragStart, startPos
+        local dragging, dragInput, dragStart, startPos
 
-    dragger.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = target.Position
+        dragger.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                dragStart = input.Position
+                startPos = target.Position
 
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragging = false
+                    end
+                end)
+            end
+        end)
 
-    dragger.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end)
+        dragger.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+            end
+        end)
 
-    UIS.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            local delta = input.Position - dragStart
-            target.Position = UDim2.new(
-                startPos.X.Scale, startPos.X.Offset + delta.X,
-                startPos.Y.Scale, startPos.Y.Offset + delta.Y
-            )
-        end
-    end)
+        UIS.InputChanged:Connect(function(input)
+            if input == dragInput and dragging then
+                local delta = input.Position - dragStart
+                target.Position = UDim2.new(
+                    startPos.X.Scale, startPos.X.Offset + delta.X,
+                    startPos.Y.Scale, startPos.Y.Offset + delta.Y
+                )
+            end
+        end)
     end  
-    
+
+    -- Wrapper for TabList
+    local TabListWrapper = Instance.new("Frame")
+    TabListWrapper.Size = UDim2.new(0, 120, 1, 0)
+    TabListWrapper.BackgroundTransparency = 1
+    TabListWrapper.BorderSizePixel = 0
+    TabListWrapper.Parent = Main
+
+    local TabList = Instance.new("ScrollingFrame")
+    TabList.Size = UDim2.new(1, 0, 1, 0)
+    TabList.BackgroundColor3 = Color3.fromRGB(20, 40, 120)
     TabList.ScrollBarThickness = 5
     TabList.CanvasSize = UDim2.new(0,0,0,0)
-    TabList.Parent = Main
+    TabList.Parent = TabListWrapper
 
-    -- Tab contents (scrollable)
+    -- Wrapper for TabContent
+    local TabContentWrapper = Instance.new("Frame")
+    TabContentWrapper.Size = UDim2.new(1, -120, 1, 0)
+    TabContentWrapper.Position = UDim2.new(0, 120, 0, 0)
+    TabContentWrapper.BackgroundTransparency = 1
+    TabContentWrapper.BorderSizePixel = 0
+    TabContentWrapper.Parent = Main
+
     local TabContent = Instance.new("ScrollingFrame")
-    TabContent.Size = UDim2.new(1, -120, 1, 0)
-    TabContent.Position = UDim2.new(0, 120, 0, 0)
+    TabContent.Size = UDim2.new(1, 0, 1, 0)
     TabContent.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
     TabContent.ScrollBarThickness = 5
     TabContent.CanvasSize = UDim2.new(0,0,0,0)
-    TabContent.Parent = Main
+    TabContent.Parent = TabContentWrapper
 
+    -- Apply dragging to wrappers instead of scrolling frames
     makeDraggable(Main, Main)
-    makeDraggable(TabList, Main)
-    makeDraggable(TabContent, Main)
-    
+    makeDraggable(TabListWrapper, Main)
+    makeDraggable(TabContentWrapper, Main)
+
     local Window = setmetatable({
         Main = Main,
         TabList = TabList,
