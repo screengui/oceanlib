@@ -422,165 +422,172 @@ function UILibrary:CreateTab(name)
     end
         
     function TabAPI:AddSlider(name, min, max, default, callback)
-    local sliderFrame = Instance.new("Frame")
-    sliderFrame.Size = UDim2.new(1, -20, 0, 40)
-    sliderFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 45 + 10)
-    sliderFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
-    sliderFrame.Parent = ContentFrame
+        local sliderFrame = Instance.new("Frame")
+        sliderFrame.Size = UDim2.new(1, -20, 0, 40)
+        sliderFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        sliderFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        sliderFrame.Parent = ContentFrame
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 8)
+        corner.Parent = sliderFrame
+        
+        local title = Instance.new("TextLabel")
+        title.Text = name .. " (" .. tostring(default) .. ")"
+        title.Size = UDim2.new(1, -10, 0, 20)
+        title.Position = UDim2.new(0, 5, 0, 2)
+        title.BackgroundTransparency = 1
+        title.TextColor3 = Color3.fromRGB(255,255,255)
+        title.Font = Enum.Font.Nunito
+        title.TextXAlignment = Enum.TextXAlignment.Left
+        title.TextScaled = true
+        title.Parent = sliderFrame
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 8)
-    corner.Parent = sliderFrame
+        local bar = Instance.new("Frame")
+        bar.Size = UDim2.new(1, -10, 0, 6)
+        bar.Position = UDim2.new(0, 5, 1, -12)
+        bar.BackgroundColor3 = Color3.fromRGB(60,60,60)
+        bar.BorderSizePixel = 0
+        bar.Parent = sliderFrame
 
-    local title = Instance.new("TextLabel")
-    title.Text = name .. " (" .. tostring(default) .. ")"
-    title.Size = UDim2.new(1, -10, 0, 20)
-    title.Position = UDim2.new(0, 5, 0, 2)
-    title.BackgroundTransparency = 1
-    title.TextColor3 = Color3.fromRGB(255,255,255)
-    title.Font = Enum.Font.Nunito
-    title.TextXAlignment = Enum.TextXAlignment.Left
-    title.TextScaled = true
-    title.Parent = sliderFrame
+        local fill = Instance.new("Frame")
+        fill.Size = UDim2.new((default-min)/(max-min), 0, 1, 0)
+        fill.BackgroundColor3 = Color3.fromRGB(0,170,255)
+        fill.BorderSizePixel = 0
+        fill.Parent = bar
 
-    local bar = Instance.new("Frame")
-    bar.Size = UDim2.new(1, -10, 0, 6)
-    bar.Position = UDim2.new(0, 5, 1, -12)
-    bar.BackgroundColor3 = Color3.fromRGB(60,60,60)
-    bar.BorderSizePixel = 0
-    bar.Parent = sliderFrame
-
-    local fill = Instance.new("Frame")
-    fill.Size = UDim2.new((default-min)/(max-min), 0, 1, 0)
-    fill.BackgroundColor3 = Color3.fromRGB(0,170,255)
-    fill.BorderSizePixel = 0
-    fill.Parent = bar
-
-    local dragging = false
-    bar.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = true end
-    end)
-    UIS.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
-    end)
-    UIS.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            local rel = math.clamp((input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
-            fill.Size = UDim2.new(rel, 0, 1, 0)
-            local value = math.floor(min + (max-min)*rel)
-            title.Text = name .. " (" .. value .. ")"
-            callback(value)
-        end
-    end)
-
-    table.insert(Tab.Elements, sliderFrame)
-end
-
-function TabAPI:AddDropdown(name, options, callback)
-    local dropdown = Instance.new("TextButton")
-    dropdown.Size = UDim2.new(1, -20, 0, 30)
-    dropdown.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
-    dropdown.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
-    dropdown.Text = name
-    dropdown.TextColor3 = Color3.new(1,1,1)
-    dropdown.Font = Enum.Font.Nunito
-    dropdown.TextScaled = true
-    dropdown.Parent = ContentFrame
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 8)
-    corner.Parent = dropdown
-
-    local listFrame = Instance.new("Frame")
-    listFrame.Size = UDim2.new(1, -20, 0, 0)
-    listFrame.Position = UDim2.new(0, 10, 0, dropdown.Position.Y.Offset + 35)
-    listFrame.BackgroundColor3 = Color3.fromRGB(70,100,220)
-    listFrame.BorderSizePixel = 0
-    listFrame.ClipsDescendants = true
-    listFrame.Visible = false
-    listFrame.Parent = ContentFrame
-
-    local layout = Instance.new("UIListLayout")
-    layout.Parent = listFrame
-
-    local expanded = false
-    dropdown.MouseButton1Click:Connect(function()
-        expanded = not expanded
-        listFrame.Visible = expanded
-        listFrame.Size = UDim2.new(1, -20, 0, expanded and (#options * 30) or 0)
-    end)
-
-    for _,opt in ipairs(options) do
-        local optBtn = Instance.new("TextButton")
-        optBtn.Size = UDim2.new(1, 0, 0, 30)
-        optBtn.BackgroundColor3 = Color3.fromRGB(90,120,240)
-        optBtn.Text = opt
-        optBtn.TextColor3 = Color3.new(1,1,1)
-        optBtn.Font = Enum.Font.Nunito
-        optBtn.TextScaled = true
-        optBtn.Parent = listFrame
-        optBtn.MouseButton1Click:Connect(function()
-            dropdown.Text = name .. ": " .. opt
-            callback(opt)
-            expanded = false
-            listFrame.Visible = false
+        local dragging2 = false
+        bar.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging2 = true end
         end)
+        
+        UIS.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging2 = false end
+        end)
+        
+        UIS.InputChanged:Connect(function(input)
+            if dragging2 and input.UserInputType == Enum.UserInputType.MouseMovement then
+                local rel = math.clamp((input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
+                fill.Size = UDim2.new(rel, 0, 1, 0)
+                local value = math.floor(min + (max-min)*rel)
+                title.Text = name .. " (" .. value .. ")"
+                callback(value)
+            end
+        end)
+        
+        table.insert(Tab.Elements, sliderFrame)
     end
 
-    table.insert(Tab.Elements, dropdown)
-end
+    function TabAPI:AddDropdown(name, options, callback)
+        local dropdown = Instance.new("TextButton")
+        dropdown.Size = UDim2.new(1, -20, 0, 30)
+        dropdown.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        dropdown.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        dropdown.Text = name
+        dropdown.TextColor3 = Color3.new(1,1,1)
+        dropdown.Font = Enum.Font.Nunito
+        dropdown.TextScaled = true
+        dropdown.Parent = ContentFrame
 
-function TabAPI:AddLabel(text)
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -20, 0, 30)
-    label.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
-    label.BackgroundTransparency = 1
-    label.Text = text
-    label.TextColor3 = Color3.fromRGB(255,255,255)
-    label.Font = Enum.Font.Nunito
-    label.TextScaled = true
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = ContentFrame
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 8)
+        corner.Parent = dropdown
 
-    table.insert(Tab.Elements, label)
-end
+        local listFrame = Instance.new("Frame")
+        listFrame.Size = UDim2.new(1, -20, 0, 0)
+        listFrame.Position = UDim2.new(0, 10, 0, dropdown.Position.Y.Offset + 35)
+        listFrame.BackgroundColor3 = Color3.fromRGB(70,100,220)
+        listFrame.BorderSizePixel = 0
+        listFrame.ClipsDescendants = true
+        listFrame.Visible = false
+        listFrame.Parent = ContentFrame
+        listFrame.ZIndex = 3
 
-function TabAPI:AddParagraph(header, content)
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(1, -20, 0, 90)
-    frame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 100 + 10)
-    frame.BackgroundColor3 = Color3.fromRGB(90,120,240)
-    frame.Parent = ContentFrame
+        local listFrameCorner = Instance.new("UICorner")
+        listFrameCorner.CornerRadius = UDim.new(0, 8)
+        listFrameCorner.Parent = listFrame
+        
+        local layout = Instance.new("UIListLayout")
+        layout.Parent = listFrame
+        
+        local expanded = false
+        dropdown.MouseButton1Click:Connect(function()
+            expanded = not expanded
+            listFrame.Visible = expanded
+            listFrame.Size = UDim2.new(1, -20, 0, expanded and (#options * 30) or 0)
+        end)
+        
+        for _,opt in ipairs(options) do
+            local optBtn = Instance.new("TextButton")
+            optBtn.Size = UDim2.new(1, 0, 0, 30)
+            optBtn.BackgroundColor3 = Color3.fromRGB(90,120,240)
+            optBtn.Text = opt
+            optBtn.TextColor3 = Color3.new(1,1,1)
+            optBtn.Font = Enum.Font.Nunito
+            optBtn.TextScaled = true
+            optBtn.Parent = listFrame
+            optBtn.MouseButton1Click:Connect(function()
+                dropdown.Text = name .. ": " .. opt
+                callback(opt)
+                expanded = false
+                listFrame.Visible = false
+            end)
+        end
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 8)
-    corner.Parent = frame
+        table.insert(Tab.Elements, dropdown)
+    end
+        
+    function TabAPI:AddLabel(text)
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, -20, 0, 30)
+        label.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        label.BackgroundTransparency = 1
+        label.Text = text
+        label.TextColor3 = Color3.fromRGB(255,255,255)
+        label.Font = Enum.Font.Nunito
+        label.TextScaled = true
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = ContentFrame
 
-    local headerLbl = Instance.new("TextLabel")
-    headerLbl.Size = UDim2.new(1, -10, 0, 25)
-    headerLbl.Position = UDim2.new(0,5,0,5)
-    headerLbl.BackgroundTransparency = 1
-    headerLbl.Text = header
-    headerLbl.TextColor3 = Color3.fromRGB(255,255,0)
-    headerLbl.Font = Enum.Font.Nunito
-    headerLbl.TextScaled = true
-    headerLbl.TextXAlignment = Enum.TextXAlignment.Left
-    headerLbl.Parent = frame
+        table.insert(Tab.Elements, label)
+    end
+        
+    function TabAPI:AddParagraph(header, content)
+        local frame = Instance.new("Frame")
+        frame.Size = UDim2.new(1, -20, 0, 90)
+        frame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        frame.BackgroundColor3 = Color3.fromRGB(90,120,240)
+        frame.Parent = ContentFrame
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 8)
+        corner.Parent = frame
 
-    local contentLbl = Instance.new("TextLabel")
-    contentLbl.Size = UDim2.new(1, -10, 0, 50)
-    contentLbl.Position = UDim2.new(0,5,0,35)
-    contentLbl.BackgroundTransparency = 1
-    contentLbl.Text = content
-    contentLbl.TextWrapped = true
-    contentLbl.TextYAlignment = Enum.TextYAlignment.Top
-    contentLbl.Font = Enum.Font.Nunito
-    contentLbl.TextColor3 = Color3.fromRGB(220,220,220)
-    contentLbl.TextSize = 16
-    contentLbl.Parent = frame
+        local headerLbl = Instance.new("TextLabel")
+        headerLbl.Size = UDim2.new(1, -10, 0, 25)
+        headerLbl.Position = UDim2.new(0,5,0,5)
+        headerLbl.BackgroundTransparency = 1
+        headerLbl.Text = header
+        headerLbl.TextColor3 = Color3.fromRGB(255,255,0)
+        headerLbl.Font = Enum.Font.Nunito
+        headerLbl.TextScaled = true
+        headerLbl.TextXAlignment = Enum.TextXAlignment.Left
+        headerLbl.Parent = frame
 
-    table.insert(Tab.Elements, frame)
-end
+        local contentLbl = Instance.new("TextLabel")
+        contentLbl.Size = UDim2.new(1, -10, 0, 50)
+        contentLbl.Position = UDim2.new(0,5,0,35)
+        contentLbl.BackgroundTransparency = 1
+        contentLbl.Text = content
+        contentLbl.TextWrapped = true
+        contentLbl.TextYAlignment = Enum.TextYAlignment.Top
+        contentLbl.Font = Enum.Font.Nunito
+        contentLbl.TextColor3 = Color3.fromRGB(220,220,220)
+        contentLbl.TextSize = 16
+        contentLbl.Parent = frame
+        
+        table.insert(Tab.Elements, frame)
+    end
     return TabAPI
 end
 
