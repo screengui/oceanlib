@@ -22,6 +22,7 @@ function UILibrary:CreateWindow(title)
     DragBar.BackgroundTransparency = 1 -- invisible
     DragBar.Parent = Main
     DragBar.Active = true
+    DragBar.ZIndex = 2
     DragBar.Draggable = true
     
     local dragging = false
