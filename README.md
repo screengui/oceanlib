@@ -30,4 +30,46 @@ local Window = UILibrary:CreateWindow("My Hub Name")
     -- your function here
   end)
   ```
-  -
+- Buttons execute whatever you put in them when you click them
+
+- ### Toggles
+  ```lua
+  Tab:AddToggle("This is a toggle!", default <boolean>, function(state)
+    print("Hello World!")
+  end)
+  ```
+- These toggle whatever the function is inside them on and off.
+
+- ### TextBoxes
+  ```lua
+  Tab:AddTextbox("This is a textbox!", "Default" <string>, function(text)
+    print("You typed:", text)
+  end)
+  ```
+- Used for storing strings
+
+- ### Sliders
+  ```lua
+  Tab2:AddSlider("This is a slider!", min <num>, max <num>, default <boolean>, function(v)
+    print(v)
+  end)
+  ```
+
+- ### Dropdowns
+  ```lua
+  Tab2:AddDropdown("This is a dropdown!", {"Option 1","Option 2","Option 3"}, function(opt)
+    print(opt)
+  end)
+  ```
+
+- ### Labels
+  ```lua
+  Tab2:AddLabel("This is a simple label")
+  ```
+
+- ### Paragraphs
+
+  ```lua
+  Tab2:AddParagraph("This is a paragraph!", "Line1\nLine2\nLine3")
+  ```
+  
