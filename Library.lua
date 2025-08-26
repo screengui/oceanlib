@@ -95,6 +95,7 @@ function UILibrary:CreateWindow(title)
     TabList.ScrollBarThickness = 5
     TabList.CanvasSize = UDim2.new(0,0,0,0)
     TabList.Parent = TabListWrapper
+    TabList.CanvasSize = UDim2.new(0, 0, 0, #tabList:GetChildren() * 30)
 
     local tabListCorner = Instance.new("UICorner")
     tabListCorner.CornerRadius = UDim.new(0, 8)
