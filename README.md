@@ -22,3 +22,12 @@ local Window = UILibrary:CreateWindow("My Hub Name")
   ```lua
   local Tab = Window:CreateTab("My Tab Name")
   ```
+- These are the sections of the script. Tabs help organize the layout of the script.
+
+- ### Buttons
+  ```lua
+  Tab:AddButton("Button Name", function()
+    -- your function here
+  end)
+  ```
+  -
