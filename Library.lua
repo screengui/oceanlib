@@ -87,7 +87,7 @@ function UILibrary:CreateWindow(title)
     ReopenBtn.Text = "Open GUI"
     ReopenBtn.Font = Enum.Font.Nunito
     ReopenBtn.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
-    ReopenBtn.TextSize = 30
+    ReopenBtn.TextSize = 20
     ReopenBtn.TextColor3 = Color3.new(1,1,1)
     ReopenBtn.Visible = false
     ReopenBtn.Parent = ScreenGui
@@ -303,8 +303,8 @@ function UILibrary:CreateTab(name)
     local TabAPI = {}
     function TabAPI:AddButton(text, callback)
         local Btn = Instance.new("TextButton")
-        Btn.Size = UDim2.new(0, 200, 0, 30)
-        Btn.Position = UDim2.new(0, 10, 0, #Tab.Elements * 35 + 10)
+        Btn.Size = UDim2.new(1, -20, 0, 30) 
+        Btn.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
         Btn.Text = text
         Btn.Font = Enum.Font.Nunito
         Btn.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
@@ -321,8 +321,8 @@ function UILibrary:CreateTab(name)
 
     function TabAPI:AddToggle(text, default, callback)
         local Btn = Instance.new("TextButton")
-        Btn.Size = UDim2.new(0, 200, 0, 30)
-        Btn.Position = UDim2.new(0, 10, 0, #Tab.Elements * 35 + 10)
+        Btn.Size = UDim2.new(1, -20, 0, 30) 
+        Btn.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
         Btn.Text = text .. ": " .. tostring(default)
         Btn.Font = Enum.Font.Nunito
         Btn.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
@@ -345,8 +345,8 @@ function UILibrary:CreateTab(name)
 
     function TabAPI:AddTextbox(placeholder, default, callback)
         local Box = Instance.new("TextBox")
-        Box.Size = UDim2.new(0, 200, 0, 30)
-        Box.Position = UDim2.new(0, 10, 0, #Tab.Elements * 35 + 10)
+        Box.Size = UDim2.new(1, -20, 0, 30) 
+        Box.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
         Box.PlaceholderText = placeholder
         Box.Text = default or ""
         Box.Font = Enum.Font.Nunito
