@@ -25,6 +25,7 @@ function UILibrary:CreateWindow(title)
     TabList.ScrollBarThickness = 5
     TabList.CanvasSize = UDim2.new(0,0,0,0)
     TabList.Parent = Main
+    TabList.Draggable = true
 
     -- Tab contents (scrollable)
     local TabContent = Instance.new("ScrollingFrame")
@@ -34,6 +35,7 @@ function UILibrary:CreateWindow(title)
     TabContent.ScrollBarThickness = 5
     TabContent.CanvasSize = UDim2.new(0,0,0,0)
     TabContent.Parent = Main
+    TabContent.Draggable = true
 
     local Window = setmetatable({
         Main = Main,
@@ -58,6 +60,7 @@ function UILibrary:CreateTab(name)
     local ContentFrame = Instance.new("Frame")
     ContentFrame.Size = UDim2.new(1, 0, 1, 0)
     ContentFrame.Visible = false
+    ContentFrame.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
     ContentFrame.Parent = self.TabContent
 
     local Tab = {
