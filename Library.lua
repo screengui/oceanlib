@@ -302,69 +302,115 @@ function UILibrary:CreateTab(name)
     
     local TabAPI = {}
     function TabAPI:AddButton(text, callback)
-        local Btn = Instance.new("TextButton")
-        Btn.Size = UDim2.new(1, -20, 0, 30) 
-        Btn.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
-        Btn.Text = text
-        Btn.Font = Enum.Font.Nunito
-        Btn.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
-        Btn.TextScaled = true
-        Btn.TextColor3 = Color3.new(1,1,1)
-        Btn.Parent = ContentFrame
-        Btn.MouseButton1Click:Connect(callback)
-
+        local BtnFrame = Instance.new("Frame")
+        BtnFrame.Size = UDim2.new(1, -20, 0, 30)
+        BtnFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        BtnFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        BtnFrame.Parent = ContentFrame
+        
         local BtnCorner = Instance.new("UICorner")
         BtnCorner.CornerRadius = UDim.new(0, 8)
-        BtnCorner.Parent = Btn
-        table.insert(Tab.Elements, Btn)
+        BtnCorner.Parent = BtnFrame
+        
+        local Label = Instance.new("TextLabel")
+        Label.Size = UDim2.new(1, -10, 1, 0)
+        Label.Position = UDim2.new(0, 10, 0, 0)
+        Label.Text = text
+        Label.Font = Enum.Font.Nunito
+        Label.TextScaled = true
+        Label.TextXAlignment = Enum.TextXAlignment.Left
+        Label.BackgroundTransparency = 1
+        Label.TextColor3 = Color3.new(1,1,1)
+        Label.Parent = BtnFrame
+        
+        BtnFrame.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                callback()
+            end
+        end)
+        
+        table.insert(Tab.Elements, BtnFrame)
     end
 
     function TabAPI:AddToggle(text, default, callback)
-        local Btn = Instance.new("TextButton")
-        Btn.Size = UDim2.new(1, -20, 0, 30) 
-        Btn.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
-        Btn.Text = text .. ": " .. tostring(default)
-        Btn.Font = Enum.Font.Nunito
-        Btn.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
-        Btn.TextScaled = true
-        Btn.TextColor3 = Color3.new(1,1,1)
-        Btn.Parent = ContentFrame
-
-        local BtnCorner = Instance.new("UICorner")
-        BtnCorner.CornerRadius = UDim.new(0, 8)
-        BtnCorner.Parent = Btn
+        local ToggleFrame = Instance.new("Frame")
+        ToggleFrame.Size = UDim2.new(1, -20, 0, 30)
+        ToggleFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        ToggleFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        ToggleFrame.Parent = ContentFrame
+        
+        local ToggleCorner = Instance.new("UICorner")
+        ToggleCorner.CornerRadius = UDim.new(0, 8)
+        ToggleCorner.Parent = ToggleFrame
+        
+        local Label = Instance.new("TextLabel")
+        Label.Size = UDim2.new(1, -40, 1, 0)
+        Label.Position = UDim2.new(0, 10, 0, 0)
+        Label.Text = text
+        Label.Font = Enum.Font.Nunito
+        Label.TextScaled = true
+        Label.TextXAlignment = Enum.TextXAlignment.Left
+        Label.BackgroundTransparency = 1
+        Label.TextColor3 = Color3.new(1,1,1)
+        Label.Parent = ToggleFrame
+        
+        local ToggleBtn = Instance.new("TextButton")
+        ToggleBtn.Size = UDim2.new(0, 20, 0, 20)
+        ToggleBtn.Position = UDim2.new(1, -25, 0.5, -10)
+        ToggleBtn.Text = default and "✔" or ""
+        ToggleBtn.Font = Enum.Font.Nunito
+        ToggleBtn.BackgroundColor3 = Color3.fromRGB(70, 100, 220)
+        ToggleBtn.TextColor3 = Color3.new(1,1,1)
+        ToggleBtn.Parent = ToggleFrame
         
         local state = default
-        Btn.MouseButton1Click:Connect(function()
+        ToggleBtn.MouseButton1Click:Connect(function()
             state = not state
-            Btn.Text = text .. ": " .. tostring(state)
-            callback(state)
-        end)
-        table.insert(Tab.Elements, Btn)
+            ToggleBtn.Text = state and "✔" or ""
+                callback(state)
+            end)
+        table.insert(Tab.Elements, ToggleFrame)
     end
-
-    function TabAPI:AddTextbox(placeholder, default, callback)
-        local Box = Instance.new("TextBox")
-        Box.Size = UDim2.new(1, -20, 0, 30) 
-        Box.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
-        Box.PlaceholderText = placeholder
-        Box.Text = default or ""
-        Box.Font = Enum.Font.Nunito
-        Box.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
-        Box.TextColor3 = Color3.new(1,1,1)
-        Box.TextScaled = true
-        Box.Parent = ContentFrame
-
+        
+    function TabAPI:AddTextbox(labelText, default, callback)
+        local BoxFrame = Instance.new("Frame")
+        BoxFrame.Size = UDim2.new(1, -20, 0, 30)
+        BoxFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+        BoxFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+        BoxFrame.Parent = ContentFrame
+        
         local BoxCorner = Instance.new("UICorner")
         BoxCorner.CornerRadius = UDim.new(0, 8)
-        BoxCorner.Parent = Box
+        BoxCorner.Parent = BoxFrame
+        
+        local Label = Instance.new("TextLabel")
+        Label.Size = UDim2.new(0.5, -10, 1, 0)
+        Label.Position = UDim2.new(0, 10, 0, 0)
+        Label.Text = labelText
+        Label.Font = Enum.Font.Nunito
+        Label.TextScaled = true
+        Label.TextXAlignment = Enum.TextXAlignment.Left
+        Label.BackgroundTransparency = 1
+        Label.TextColor3 = Color3.new(1,1,1)
+        Label.Parent = BoxFrame
+        
+        local Box = Instance.new("TextBox")
+        Box.Size = UDim2.new(0.5, -20, 0.8, 0)
+        Box.Position = UDim2.new(0.5, 10, 0.1, 0)
+        Box.Text = default or ""
+        Box.PlaceholderText = "Enter..."
+        Box.Font = Enum.Font.Nunito
+        Box.BackgroundColor3 = Color3.fromRGB(70, 100, 220)
+        Box.TextColor3 = Color3.new(1,1,1)
+        Box.Parent = BoxFrame
         
         Box.FocusLost:Connect(function(enter)
             if enter then
                 callback(Box.Text)
             end
         end)
-        table.insert(Tab.Elements, Box)
+        
+        table.insert(Tab.Elements, BoxFrame)
     end
 
     return TabAPI
