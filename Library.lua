@@ -457,23 +457,36 @@ function UILibrary:CreateTab(name)
         fill.Parent = bar
 
         local dragging2 = false
-        bar.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging2 = true end
-        end)
-        
-        UIS.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging2 = false end
-        end)
-        
-        UIS.InputChanged:Connect(function(input)
-            if dragging2 and input.UserInputType == Enum.UserInputType.MouseMovement then
-                local rel = math.clamp((input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
-                fill.Size = UDim2.new(rel, 0, 1, 0)
-                local value = math.floor(min + (max-min)*rel)
-                title.Text = name .. " (" .. value .. ")"
-                callback(value)
-            end
-        end)
+
+    local function updateFromInput(input)
+        local rel = math.clamp((input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
+        fill.Size = UDim2.new(rel, 0, 1, 0)
+        local value = math.floor(min + (max-min) * rel)
+        title.Text = name .. " (" .. value .. ")"
+        callback(value)
+    end
+
+    -- Begin drag or jump on tap
+    bar.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging2 = true
+            updateFromInput(input) -- instant update on click/tap
+        end
+    end)
+
+    -- Stop dragging
+    UIS.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging2 = false
+        end
+    end)
+
+    -- While dragging (mouse or touch)
+    UIS.InputChanged:Connect(function(input)
+        if dragging2 and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            updateFromInput(input)
+        end
+    end)
         
         table.insert(Tab.Elements, sliderFrame)
     end
@@ -503,9 +516,7 @@ function UILibrary:CreateTab(name)
         listFrame.Parent = ContentFrame
         listFrame.ZIndex = 3
 
-        local listFrameCorner = Instance.new("UICorner")
-        listFrameCorner.CornerRadius = UDim.new(0, 8)
-        listFrameCorner.Parent = listFrame
+        q
         
         local layout = Instance.new("UIListLayout")
         layout.Parent = listFrame
@@ -526,6 +537,12 @@ function UILibrary:CreateTab(name)
             optBtn.Font = Enum.Font.Nunito
             optBtn.TextScaled = true
             optBtn.Parent = listFrame
+            optBtn.ZIndex = 4
+
+            local optBtnCorner = Instance.new("UICorner")
+            optBtnCorner.CornerRadius = UDim.new(0, 8)
+            optBtbCorner.Parent = optBtn
+            
             optBtn.MouseButton1Click:Connect(function()
                 dropdown.Text = name .. ": " .. opt
                 callback(opt)
@@ -568,7 +585,7 @@ function UILibrary:CreateTab(name)
         headerLbl.Position = UDim2.new(0,5,0,5)
         headerLbl.BackgroundTransparency = 1
         headerLbl.Text = header
-        headerLbl.TextColor3 = Color3.fromRGB(255,255,0)
+        headerLbl.TextColor3 = Color3.fromRGB(255,255,255)
         headerLbl.Font = Enum.Font.Nunito
         headerLbl.TextScaled = true
         headerLbl.TextXAlignment = Enum.TextXAlignment.Left
