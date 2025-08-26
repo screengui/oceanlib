@@ -463,7 +463,7 @@ function UILibrary:CreateTab(name)
             end
         end)
         
-        uis.InputChanged:Connect(function(input)
+        UIS.InputChanged:Connect(function(input)
             if dragging2 and input.UserInputType == Enum.UserInputType.MouseMovement then
                 local rel = math.clamp((input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X, 0, 1)
                 fill.Size = UDim2.new(rel, 0, 1, 0)
