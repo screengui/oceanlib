@@ -87,7 +87,7 @@ function UILibrary:CreateWindow(title)
     ReopenBtn.Text = "Open GUI"
     ReopenBtn.Font = Enum.Font.Nunito
     ReopenBtn.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
-    ReopenBtn.TextScaled = true
+    ReopenBtn.TextSize = 30
     ReopenBtn.TextColor3 = Color3.new(1,1,1)
     ReopenBtn.Visible = false
     ReopenBtn.Parent = ScreenGui
@@ -103,6 +103,7 @@ function UILibrary:CreateWindow(title)
     ConfirmFrame.Visible = false
     ConfirmFrame.Parent = Main
     ConfirmFrame.ZIndex = 4
+    
     local cfCorner = Instance.new("UICorner")
     cfCorner.CornerRadius = UDim.new(0, 10)
     cfCorner.Parent = ConfirmFrame
@@ -130,6 +131,10 @@ function UILibrary:CreateWindow(title)
     YesBtn.Parent = ConfirmFrame
     YesBtn.ZIndex = 4
 
+    local YesBtnCorner = Instance.new("UICorner")
+    YesBtnCorner.CornerRadius = UDim.new(0, 8)
+    YesBtnCorner.Parent = YesBtn
+    
     local NoBtn = Instance.new("TextButton")
     NoBtn.Size = UDim2.new(0.5, -15, 0, 30)
     NoBtn.Position = UDim2.new(0.5, 5, 1, -40)
@@ -141,6 +146,10 @@ function UILibrary:CreateWindow(title)
     NoBtn.Parent = ConfirmFrame
     NoBtn.ZIndex = 4
 
+    local NoBtnCorner = Instance.new("UICorner")
+    NoBtnCorner.CornerRadius = UDim.new(0, 8)
+    NoBtnCorner.Parent = NoBtn
+    
     MinBtn.MouseButton1Click:Connect(function()
         Main.Visible = false
         ReopenBtn.Visible = true
@@ -266,6 +275,10 @@ function UILibrary:CreateTab(name)
     TabButton.TextColor3 = Color3.new(1,1,1)
     TabButton.Parent = self.TabList
 
+    local TabButtonCorner = Instance.new("UICorner")
+    TabButtonCorner.CornerRadius = UDim.new(0, 8)
+    TabButtonCorner.Parent = TabButton
+
     local ContentFrame = Instance.new("Frame")
     ContentFrame.Size = UDim2.new(1, 0, 1, 0)
     ContentFrame.Visible = false
@@ -299,6 +312,10 @@ function UILibrary:CreateTab(name)
         Btn.TextColor3 = Color3.new(1,1,1)
         Btn.Parent = ContentFrame
         Btn.MouseButton1Click:Connect(callback)
+
+        local BtnCorner = Instance.new("UICorner")
+        BtnCorner.CornerRadius = UDim.new(0, 8)
+        BtnCorner.Parent = Btn
         table.insert(Tab.Elements, Btn)
     end
 
@@ -312,6 +329,11 @@ function UILibrary:CreateTab(name)
         Btn.TextScaled = true
         Btn.TextColor3 = Color3.new(1,1,1)
         Btn.Parent = ContentFrame
+
+        local BtnCorner = Instance.new("UICorner")
+        BtnCorner.CornerRadius = UDim.new(0, 8)
+        BtnCorner.Parent = Btn
+        
         local state = default
         Btn.MouseButton1Click:Connect(function()
             state = not state
@@ -332,6 +354,11 @@ function UILibrary:CreateTab(name)
         Box.TextColor3 = Color3.new(1,1,1)
         Box.TextScaled = true
         Box.Parent = ContentFrame
+
+        local BoxCorner = Instance.new("UICorner")
+        BoxCorner.CornerRadius = UDim.new(0, 8)
+        BoxCorner.Parent = Box
+        
         Box.FocusLost:Connect(function(enter)
             if enter then
                 callback(Box.Text)
