@@ -47,6 +47,94 @@ function UILibrary:CreateWindow(title)
     local titleCorner = Instance.new("UICorner")
     titleCorner.CornerRadius = UDim.new(0, 10)
     titleCorner.Parent = TitleBar
+
+    local MinBtn = Instance.new("TextButton")
+    MinBtn.Size = UDim2.new(0, 30, 0, 30)
+    MinBtn.Position = UDim2.new(1, -65, 0.5, -15)
+    MinBtn.Text = "_"
+    MinBtn.BackgroundColor3 = Color3.fromRGB(200, 180, 50)
+    MinBtn.TextColor3 = Color3.new(0,0,0)
+    MinBtn.Parent = TitleBar
+    MinBtn.ZIndex = 4
+
+    local CloseBtn = Instance.new("TextButton")
+    CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+    CloseBtn.Position = UDim2.new(1, -35, 0.5, -15)
+    CloseBtn.Text = "X"
+    CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    CloseBtn.TextColor3 = Color3.new(1,1,1)
+    CloseBtn.Parent = TitleBar
+    CloseBtn.ZIndex = 4
+
+    local ReopenBtn = Instance.new("TextButton")
+    ReopenBtn.Size = UDim2.new(0, 100, 0, 30)
+    ReopenBtn.Position = UDim2.new(0.5, -50, 0, 0)
+    ReopenBtn.Text = "Open GUI"
+    ReopenBtn.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
+    ReopenBtn.TextColor3 = Color3.new(1,1,1)
+    ReopenBtn.Visible = false
+    ReopenBtn.Parent = ScreenGui
+
+    local reopenCorner = Instance.new("UICorner")
+    reopenCorner.CornerRadius = UDim.new(1, 0)
+    reopenCorner.Parent = ReopenBtn
+
+    local ConfirmFrame = Instance.new("Frame")
+    ConfirmFrame.Size = UDim2.new(0, 250, 0, 120)
+    ConfirmFrame.Position = UDim2.new(0.5, -125, 0.5, -60)
+    ConfirmFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    ConfirmFrame.Visible = false
+    ConfirmFrame.Parent = Main
+    local cfCorner = Instance.new("UICorner")
+    cfCorner.CornerRadius = UDim.new(0, 10)
+    cfCorner.Parent = ConfirmFrame
+
+    local ConfirmLabel = Instance.new("TextLabel")
+    ConfirmLabel.Size = UDim2.new(1, -20, 0, 40)
+    ConfirmLabel.Position = UDim2.new(0, 10, 0, 10)
+    ConfirmLabel.Text = "Do you really want to close?"
+    ConfirmLabel.TextColor3 = Color3.new(1,1,1)
+    ConfirmLabel.TextWrapped = true
+    ConfirmLabel.BackgroundTransparency = 1
+    ConfirmLabel.Parent = ConfirmFrame
+
+    local YesBtn = Instance.new("TextButton")
+    YesBtn.Size = UDim2.new(0.5, -15, 0, 30)
+    YesBtn.Position = UDim2.new(0, 10, 1, -40)
+    YesBtn.Text = "Yes"
+    YesBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    YesBtn.TextColor3 = Color3.new(1,1,1)
+    YesBtn.Parent = ConfirmFrame
+
+    local NoBtn = Instance.new("TextButton")
+    NoBtn.Size = UDim2.new(0.5, -15, 0, 30)
+    NoBtn.Position = UDim2.new(0.5, 5, 1, -40)
+    NoBtn.Text = "No"
+    NoBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+    NoBtn.TextColor3 = Color3.new(1,1,1)
+    NoBtn.Parent = ConfirmFrame
+
+    MinBtn.MouseButton1Click:Connect(function()
+        Main.Visible = false
+        ReopenBtn.Visible = true
+    end)
+
+    ReopenBtn.MouseButton1Click:Connect(function()
+        Main.Visible = true
+        ReopenBtn.Visible = false
+    end)
+
+    CloseBtn.MouseButton1Click:Connect(function()
+        ConfirmFrame.Visible = true
+    end)
+
+    YesBtn.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+
+    NoBtn.MouseButton1Click:Connect(function()
+        ConfirmFrame.Visible = false
+    end)
     
     local function makeDraggable(dragger, target)
         local dragging, dragInput, dragStart, startPos
