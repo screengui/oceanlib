@@ -515,8 +515,6 @@ function UILibrary:CreateTab(name)
         listFrame.Visible = false
         listFrame.Parent = ContentFrame
         listFrame.ZIndex = 3
-
-        q
         
         local layout = Instance.new("UIListLayout")
         layout.Parent = listFrame
@@ -541,7 +539,7 @@ function UILibrary:CreateTab(name)
 
             local optBtnCorner = Instance.new("UICorner")
             optBtnCorner.CornerRadius = UDim.new(0, 8)
-            optBtbCorner.Parent = optBtn
+            optBtnCorner.Parent = optBtn
             
             optBtn.MouseButton1Click:Connect(function()
                 dropdown.Text = name .. ": " .. opt
