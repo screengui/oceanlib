@@ -143,7 +143,7 @@ end
 function UILibrary:CreateTab(name)
     local TabButton = Instance.new("TextButton")
     TabButton.Size = UDim2.new(1, -10, 0, 30)
-    TabButton.Position = UDim2.new(0, 5, 0, (#self.Tabs) * 35 + 5)
+    TabButton.Position = UDim2.new(0, 5, 0, (#self.Tabs) * 35 + 15)
     TabButton.Text = name
     TabButton.BackgroundColor3 = Color3.fromRGB(70, 100, 220)
     TabButton.TextColor3 = Color3.new(1,1,1)
