@@ -38,8 +38,8 @@ function UILibrary:CreateWindow(title)
 
     local TitleFiller = Instance.new("Frame")
     TitleFiller.Size = UDim2.new(1, 0, 0, 10)
-    TitleFiller.Position = UDim2.new(0, 0, 0, -10)
-    TitleFiller.BackgroundColor3 = Main.BackgroundColor3
+    TitleFiller.Position = UDim2.new(0, 0, 0, 10)
+    TitleFiller.BackgroundColor3 = TitleBar.BackgroundColor3
     TitleFiller.BorderSizePixel = 0
     TitleFiller.ZIndex = TitleBar.ZIndex - 1
     TitleFiller.Parent = TitleBar
