@@ -22,6 +22,7 @@ function UILibrary:CreateWindow(title)
     TitleBar.Size = UDim2.new(1, 0, 0, 35)
     TitleBar.BackgroundColor3 = Color3.fromRGB(25, 50, 180)
     TitleBar.Parent = Main
+    TitleBar.ZIndex = 2
 
     local TitleLabel = Instance.new("TextLabel")
     TitleLabel.Size = UDim2.new(1, -10, 1, 0)
@@ -33,6 +34,15 @@ function UILibrary:CreateWindow(title)
     TitleLabel.Font = Enum.Font.SourceSansBold
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
     TitleLabel.Parent = TitleBar
+    TitleLabel.ZIndex = 2
+
+    local TitleFiller = Instance.new("Frame")
+    TitleFiller.Size = UDim2.new(1, 0, 0, 10)
+    TitleFiller.Position = UDim2.new(0, 0, 0, -10)
+    TitleFiller.BackgroundColor3 = Main.BackgroundColor3
+    TitleFiller.BorderSizePixel = 0
+    TitleFiller.ZIndex = TitleBar.ZIndex - 1
+    TitleFiller.Parent = TitleBar
 
     local titleCorner = Instance.new("UICorner")
     titleCorner.CornerRadius = UDim.new(0, 10)
