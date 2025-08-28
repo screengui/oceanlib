@@ -5,9 +5,9 @@ UILibrary.__index = UILibrary
 
 function UILibrary:CreateWindow(title)
     local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     ScreenGui.ResetOnSpawn = false
-
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    
     local Main = Instance.new("Frame")
     Main.Size = UDim2.new(0, 500, 0, 300)
     Main.Position = UDim2.new(0.3, 0, 0.3, 0)
@@ -252,9 +252,7 @@ function UILibrary:CreateWindow(title)
     makeDraggable(TitleBar, Main)
     makeDraggable(TabList, Main)
     makeDraggable(TabListWrapper, Main)
-    makeDraggable(TabContent, Main)
-    makeDraggable(TabContentWrapper, Main)
-
+    
     local Window = setmetatable({
         Main = Main,
         TabList = TabList,
@@ -285,6 +283,10 @@ function UILibrary:CreateTab(name)
     ContentFrame.Visible = false
     ContentFrame.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
     ContentFrame.Parent = self.TabContent
+
+    local ContentFrameCorner = Instance.new("UICorner")
+    ContentFrameCorner.CornerRadius = UDim.new(0, 8)
+    ContentFrameCorner.Parent = ContentFrame
 
     local Tab = {
         Button = TabButton,
