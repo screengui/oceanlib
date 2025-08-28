@@ -305,36 +305,31 @@ function UILibrary:CreateTab(name)
     
     local TabAPI = {}
     function TabAPI:AddButton(text, callback)
-        local BtnFrame = Instance.new("Frame")
-        BtnFrame.Size = UDim2.new(1, -20, 0, 30)
-        BtnFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
-        BtnFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
-        BtnFrame.Parent = ContentFrame
-        
-        local BtnCorner = Instance.new("UICorner")
-        BtnCorner.CornerRadius = UDim.new(0, 8)
-        BtnCorner.Parent = BtnFrame
-        
-        local Label = Instance.new("TextLabel")
-        Label.Size = UDim2.new(1, -10, 1, 0)
-        Label.Position = UDim2.new(0, 10, 0, 0)
-        Label.Text = text
-        Label.Font = Enum.Font.Nunito
-        Label.TextScaled = true
-        Label.TextXAlignment = Enum.TextXAlignment.Left
-        Label.BackgroundTransparency = 1
-        Label.TextColor3 = Color3.new(1,1,1)
-        Label.Parent = BtnFrame
-        
-        BtnFrame.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                callback()
-            end
-        end)
-        
-        table.insert(Tab.Elements, BtnFrame)
-    end
+    local BtnFrame = Instance.new("Frame")
+    BtnFrame.Size = UDim2.new(1, -20, 0, 30)
+    BtnFrame.Position = UDim2.new(0, 10, 0, #Tab.Elements * 40 + 10)
+    BtnFrame.BackgroundColor3 = Color3.fromRGB(90, 120, 240)
+    BtnFrame.Parent = ContentFrame
 
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 8)
+    BtnCorner.Parent = BtnFrame
+
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(1, 0, 1, 0)
+    Btn.BackgroundTransparency = 1
+    Btn.Text = text
+    Btn.Font = Enum.Font.Nunito
+    Btn.TextScaled = true
+    Btn.TextColor3 = Color3.new(1, 1, 1)
+    Btn.Parent = BtnFrame
+
+    Btn.MouseButton1Click:Connect(function()
+        callback()
+    end)
+
+    table.insert(Tab.Elements, BtnFrame)
+    end
     function TabAPI:AddToggle(text, default, callback)
         local ToggleFrame = Instance.new("Frame")
         ToggleFrame.Size = UDim2.new(1, -20, 0, 30)
