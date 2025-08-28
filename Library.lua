@@ -6,6 +6,7 @@ UILibrary.__index = UILibrary
 function UILibrary:CreateWindow(title)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    ScreenGui.ResetOnSpawn = false
 
     local Main = Instance.new("Frame")
     Main.Size = UDim2.new(0, 500, 0, 300)
