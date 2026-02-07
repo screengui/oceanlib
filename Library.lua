@@ -241,13 +241,8 @@ function UILibrary:CreateWindow(title)
     TabContent.ScrollBarThickness = 6
     TabContent.CanvasSize = UDim2.new(0, 0, 0, 0)
     TabContent.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    TabContent.Parent = Main
+    TabContent.Parent = TabContentWrapper
 
-    local Layout = Instance.new("UIListLayout")
-    Layout.Parent = TabContent
-    Layout.SortOrder = Enum.SortOrder.LayoutOrder
-    Layout.Padding = UDim.new(0, 5)
-    
     local tabContentCorner = Instance.new("UICorner")
     tabContentCorner.CornerRadius = UDim.new(0, 8)
     tabContentCorner.Parent = TabContent
