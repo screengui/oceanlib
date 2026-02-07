@@ -234,12 +234,20 @@ function UILibrary:CreateWindow(title)
     TabContentWrapper.Parent = Main
 
     local TabContent = Instance.new("ScrollingFrame")
-    TabContent.Size = UDim2.new(1, 0, 1, 0)
-    TabContent.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
-    TabContent.ScrollBarThickness = 5
-    TabContent.CanvasSize = UDim2.new(0,0,0,0)
-    TabContent.Parent = TabContentWrapper
+    TabContent.Size = UDim2.new(1, -10, 1, -45)
+    TabContent.Position = UDim2.new(0, 5, 0, 40)
+    TabContent.BackgroundTransparency = 1
+    TabContent.BorderSizePixel = 0
+    TabContent.ScrollBarThickness = 6
+    TabContent.CanvasSize = UDim2.new(0, 0, 0, 0)
+    TabContent.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    TabContent.Parent = Main
 
+    local Layout = Instance.new("UIListLayout")
+    Layout.Parent = TabContent
+    Layout.SortOrder = Enum.SortOrder.LayoutOrder
+    Layout.Padding = UDim.new(0, 5)
+    
     local tabContentCorner = Instance.new("UICorner")
     tabContentCorner.CornerRadius = UDim.new(0, 8)
     tabContentCorner.Parent = TabContent
