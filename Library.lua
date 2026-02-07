@@ -235,7 +235,6 @@ function UILibrary:CreateWindow(title)
 
     local TabContent = Instance.new("ScrollingFrame")
     TabContent.Size = UDim2.new(1, 0, 1, 0)
-    TabContent.Position = UDim2.new(0, 5, 0, 40)
     TabContent.BackgroundTransparency = 1
     TabContent.BorderSizePixel = 0
     TabContent.ScrollBarThickness = 6
