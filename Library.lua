@@ -7,6 +7,8 @@ function UILibrary:CreateWindow(title)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.ResetOnSpawn = false
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local isMobile = UIS.TouchEnabled and not UIS.KeyboardEnabled
     
     local Main = Instance.new("Frame")
     Main.Size = UDim2.new(0, 500, 0, 300)
@@ -90,7 +92,7 @@ function UILibrary:CreateWindow(title)
     ReopenBtn.BackgroundColor3 = Color3.fromRGB(40, 80, 240)
     ReopenBtn.TextSize = 20
     ReopenBtn.TextColor3 = Color3.new(1,1,1)
-    ReopenBtn.Visible = false
+    ReopenBtn.Visible = isMobile
     ReopenBtn.Parent = ScreenGui
 
     local reopenCorner = Instance.new("UICorner")
@@ -254,6 +256,15 @@ function UILibrary:CreateWindow(title)
     makeDraggable(TitleBar, Main)
     makeDraggable(TabList, Main)
     makeDraggable(TabListWrapper, Main)
+
+    if not isMobile then
+        UIS.InputBegan:Connect(function(input, gameProcessed)
+            if gameProcessed then return end
+            if input.KeyCode == Enum.KeyCode.RightShift then
+                Main.Visible = not Main.Visible
+            end
+        end)
+    end
     
     local Window = setmetatable({
         Main = Main,
